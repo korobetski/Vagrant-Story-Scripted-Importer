@@ -26,10 +26,8 @@ namespace VagrantStory.Classes
 
         public Vector2 GetUV(int i, uint width, uint height)
         {
-            width = width - 1;
-            height = height - 1;
             float u = uv[i].x / width;
-            float v = uv[i].y / height;
+            float v = (height - uv[i].y) / height;
             return new Vector2(u, v);
         }
     }

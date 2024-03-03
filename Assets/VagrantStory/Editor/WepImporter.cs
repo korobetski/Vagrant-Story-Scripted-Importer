@@ -31,7 +31,7 @@ namespace VagrantStory
             string cleanFilename = hash[hash.Length - 1];
 
             WEP weapon = ScriptableObject.CreateInstance<WEP>();
-            weapon.Filename = cleanFilename;
+            weapon.Filename = cleanFilename.Substring(0, 2);
             weapon.ParseFromBuffer(buffer, fs.Length);
 
             Texture texture = null;

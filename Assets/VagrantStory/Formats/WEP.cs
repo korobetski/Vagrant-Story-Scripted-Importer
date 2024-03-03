@@ -170,7 +170,7 @@ namespace VagrantStory.Formats
                 for (uint j = 0; j < face.verticesCount; j++)
                 {
                     int u = buffer.ReadByte();
-                    int v = 1 - buffer.ReadByte();
+                    int v = buffer.ReadByte();
                     face.uv.Add(new Vector2(u, v));
                 }
 
@@ -216,10 +216,10 @@ namespace VagrantStory.Formats
             }
 
             // hard fixes for staves 39.WEP to 3F.WEP
+            // the "bone" of the first group should be rotated to looks good but we correct vertices position instead of using bones
             List<string> staves = new List<string> { "39", "3A", "3B", "3C", "3D", "3E", "3F" };
             if (staves.Contains(Filename))
             {
-                // its a staff, we need to correct vertices of the first group
                 for (int i = 0; i < Groups[0].numVertices; i++)
                 {
                     Vertices[i].position.x = (-Groups[0].bone.length * 2 - Vertices[i].position.x);
