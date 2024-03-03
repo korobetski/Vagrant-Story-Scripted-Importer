@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor.UIElements;
 using UnityEngine;
 using VagrantStory.Classes;
 
@@ -50,7 +51,7 @@ namespace VagrantStory.Formats
         public Face[] Faces;
         public TIM TIM;
 
-        public byte[] Footer;
+        public Vector4[] BoneRotations;
 
 
         public void ParseFromBuffer(BinaryReader buffer, long limit)
@@ -186,10 +187,17 @@ namespace VagrantStory.Formats
             TIM = ScriptableObject.CreateInstance<TIM>();
             TIM.name = Filename + ".WEP.TIM";
             TIM.ParseWEPFromBuffer(buffer);
-            
+
+            BoneRotations = new Vector4[3];
             // rotations
-            // its look like SEQAnim rotationPerBone
-            Footer = buffer.ReadBytes(24);
+            for (int i = 0; i < 3; i++)
+            {
+                short rx = buffer.ReadInt16();
+                short ry = buffer.ReadInt16();
+                short rz = buffer.ReadInt16();
+                short rw = buffer.ReadInt16();
+                BoneRotations[i] = new Vector4(rx, ry, rz, rw);
+            }
         }
 
         public Mesh BuildMesh()
